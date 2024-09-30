@@ -52,6 +52,13 @@ public class validateGTM
         Assert.assertTrue(isGtmLoaded, "GTM is not loaded on the page!");
     }
 
+    @Test(priority = 2)
+    public void validate_GTM()
+    {
+        WebElement gtmElement = driver.findElement(By.xpath("//script[contains(@src,'googletagmanager.com/gtm.js')]"));
+        String gtmSrc = gtmElement.getAttribute("src");
+        System.out.println("Google Tag Manager URL: " + gtmSrc);
+    }
 
     @AfterClass
     public void tearDown()
