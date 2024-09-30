@@ -60,6 +60,30 @@ public class validateGTM
         System.out.println("Google Tag Manager URL: " + gtmSrc);
     }
 
+    @Test(priority = 3)
+    public void extractGTM()
+    {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String expect_GTMId = "GTM-MST68L65";
+        String scriptUrl = (String) js.executeScript(
+                "var scripts = document.getElementsByTagName('script');" +
+                        "for (var i = 0; i < scripts.length; i++) {" +
+                        "    if (scripts[i].src.includes('googletagmanager')) {" +
+                        "        return scripts[i].src; " +
+                        "    }" +
+                        "}" +
+                        "return null;"
+        );
+
+
+        if (scriptUrl != null)
+        {
+            String actual_GtmId = scriptUrl.split("id=")[1];
+            System.out.println("Found GTM ID: " + actual_GtmId);
+            Assert.assertEquals(actual_GtmId,expect_GTMId,"GTM ID Matched Successfully!!");
+        }
+    }
+
     @AfterClass
     public void tearDown()
     {
